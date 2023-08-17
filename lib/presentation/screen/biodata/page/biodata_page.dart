@@ -1,10 +1,22 @@
-import 'package:edspert_ichsan_nugraha/widgets/styled_text.dart';
-import 'package:edspert_ichsan_nugraha/widgets/text_container.dart';
-import 'package:edspert_ichsan_nugraha/login_page.dart';
+import 'package:edspert_ichsan_nugraha/presentation/screen/navbar/page/navbar.dart';
+import 'package:edspert_ichsan_nugraha/presentation/widgets/styled_text.dart';
+import 'package:edspert_ichsan_nugraha/presentation/widgets/text_container.dart';
 import 'package:flutter/material.dart';
 
-class BiodataPage extends StatelessWidget {
-  const BiodataPage({super.key});
+class BiodataPage extends StatefulWidget {
+  BiodataPage({super.key});
+
+  @override
+  State<BiodataPage> createState() => _BiodataPageState();
+}
+
+class _BiodataPageState extends State<BiodataPage> {
+  List<bool> isSelected = [true, false];
+  //List<String?> dropDownItems = ['pillih kelas', 'flutter'];
+  String? selectedValue = 'pilih kelas';
+  String jenisKelamin = '';
+  TextEditingController nmController = TextEditingController();
+  TextEditingController nmSekolahController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +38,7 @@ class BiodataPage extends StatelessWidget {
       body: Container(
         color: const Color(0xFFF0F3F5),
         padding: const EdgeInsets.all(24),
+        width: MediaQuery.of(context).size.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -49,7 +62,18 @@ class BiodataPage extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
             const SizedBox(height: 4),
-            const TextContainer(containerText: 'Ichsan Nugraha'),
+            Container(
+              color: Colors.white,
+              margin: const EdgeInsets.all(3),
+              child: TextField(
+                controller: nmController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'contoh: ichsan nugraha',
+                  labelStyle: TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
             const SizedBox(height: 22),
             const StyledText(
               text: 'Jenis Kelamin',
@@ -60,23 +84,44 @@ class BiodataPage extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
             const SizedBox(height: 4),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                SizedBox(
-                  width: 170,
-                  child: TextContainer(containerText: 'Laki-laki'),
-                ),
-                SizedBox(width: 10),
-                SizedBox(
-                  width: 170,
+            ToggleButtons(
+              isSelected: isSelected,
+              selectedColor: Colors.white,
+              fillColor: Colors.lightBlue,
+              children: const [
+                Padding(
+                  padding: EdgeInsets.all(15.0),
                   child: Text(
-                    'Perempuan',
-                    style: TextStyle(fontWeight: FontWeight.w300),
+                    'Laki-laki',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Text(
+                    'Perempuan',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                )
               ],
+              onPressed: (int newIndex) {
+                setState(() {
+                  for (int i = 0; i < isSelected.length; i++) {
+                    if (i == newIndex) {
+                      isSelected[i] = true;
+                      jenisKelamin = i.toString();
+                    } else {
+                      isSelected[i] = false;
+                    }
+                  }
+                });
+              },
             ),
             const SizedBox(height: 22),
             const StyledText(
@@ -100,26 +145,22 @@ class BiodataPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: DropdownButton(
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.only(left: 14),
-                isExpanded: true,
-                items: const [
-                  DropdownMenuItem(
-                    value: '1',
-                    child: Text(
-                      'pilih jurusan',
-                      style: TextStyle(fontWeight: FontWeight.w300),
-                    ),
-                  ),
-                  DropdownMenuItem(
-                      value: '2', child: Text('Teknik Informatika')),
-                ],
-                value: '2',
-                onChanged: (value) => const DropdownMenuItem(
-                  child: Text('Flutter'),
-                ),
-              ),
+              child: DropdownButton<String?>(
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(left: 14),
+                  isExpanded: true,
+                  value: selectedValue,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedValue = value;
+                    });
+                  },
+                  items: ['pilih kelas', 'Flutter']
+                      .map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(
+                            child: Text(e.toString()),
+                            value: e,
+                          ))
+                      .toList()),
             ),
             const SizedBox(height: 22),
             const StyledText(
@@ -131,7 +172,18 @@ class BiodataPage extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
             const SizedBox(height: 4),
-            const TextContainer(containerText: 'UNIKOM'),
+            Container(
+              color: Colors.white,
+              margin: const EdgeInsets.all(3),
+              child: TextField(
+                controller: nmSekolahController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'nama sekolah',
+                  labelStyle: TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
             const SizedBox(height: 175),
             SizedBox(
               width: double.infinity,
@@ -139,7 +191,7 @@ class BiodataPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    MaterialPageRoute(builder: (context) => NavBar()),
                   );
                 },
                 style: ElevatedButton.styleFrom(

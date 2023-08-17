@@ -1,4 +1,4 @@
-import 'package:edspert_ichsan_nugraha/widgets/styled_text.dart';
+import 'package:edspert_ichsan_nugraha/presentation/widgets/styled_text.dart';
 import 'package:flutter/material.dart';
 
 class TextContainer extends StatelessWidget {

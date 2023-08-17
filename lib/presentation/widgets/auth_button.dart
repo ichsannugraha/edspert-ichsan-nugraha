@@ -1,6 +1,6 @@
+import 'package:edspert_ichsan_nugraha/presentation/screen/biodata/page/biodata_page.dart';
 import 'package:flutter/material.dart';
-import 'package:edspert_ichsan_nugraha/widgets/styled_text.dart';
-import 'package:edspert_ichsan_nugraha/biodata_page.dart';
+import 'package:edspert_ichsan_nugraha/presentation/widgets/styled_text.dart';
 
 class AuthButton extends StatelessWidget {
   const AuthButton({
@@ -24,7 +24,7 @@ class AuthButton extends StatelessWidget {
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const BiodataPage()),
+          MaterialPageRoute(builder: (context) => BiodataPage()),
         );
       },
       style: ElevatedButton.styleFrom(
